@@ -15,9 +15,9 @@ app.post('/send_command', async (req, res) => {
         }
 
         const rcon = await Rcon.connect({
-            host: "ТВОЙ_IP",
+            host: "185.17.10.84",
             port: 25575,
-            password: "ТВОЙ_ПАРОЛЬ"
+            password: "4eLKubmf6k"
         });
 
         const response = await rcon.send(command);
