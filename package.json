@@ -1,0 +1,9 @@
+{
+  "name": "minecraft-rcon-api",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.18.2",
+    "rcon": "^2.0.1"
+  }
+}
