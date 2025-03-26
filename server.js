@@ -1,33 +1,34 @@
 const express = require('express');
-const { Rcon } = require('rcon-client');
+const bodyParser = require('body-parser');
+const Rcon = require('rcon-client').Rcon;
 
 const app = express();
-app.use(express.json());
+const port = 10000;
 
-async function sendCommand(command) {
-    const rcon = new Rcon({
-        host: process.env.RCON_HOST,
-        port: Number(process.env.RCON_PORT),
-        password: process.env.RCON_PASSWORD
-    });
-
-    try {
-        await rcon.connect();
-        const response = await rcon.send(command);
-        rcon.end();
-        return response;
-    } catch (error) {
-        console.error("RCON Error:", error);
-        return "Ошибка подключения к RCON";
-    }
-}
+app.use(bodyParser.json()); // Обязательно для парсинга JSON
 
 app.post('/send_command', async (req, res) => {
-    if (!req.body.command) return res.status(400).send("No command provided");
+    try {
+        const { command } = req.body; // Получаем команду из запроса
+        if (!command) {
+            return res.status(400).send("Ошибка: команда не указана!");
+        }
 
-    const result = await sendCommand(req.body.command);
-    res.send(result);
+        const rcon = await Rcon.connect({
+            host: "ТВОЙ_IP",
+            port: 25575,
+            password: "ТВОЙ_ПАРОЛЬ"
+        });
+
+        const response = await rcon.send(command);
+        await rcon.end();
+
+        res.send({ message: "Команда выполнена", response });
+    } catch (error) {
+        res.status(500).send("Ошибка выполнения команды: " + error.message);
+    }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
