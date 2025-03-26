@@ -8,7 +8,7 @@ async function sendCommand(command) {
     const rcon = new Rcon({
         host: "185.17.10.84",
         port: 25575,
-        password: "5423423"
+        password: "4eLKubmf6k"
     });
     await rcon.connect();
     const response = await rcon.send(command);
