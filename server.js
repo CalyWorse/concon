@@ -6,9 +6,9 @@ app.use(express.json());
 
 async function sendCommand(command) {
     const rcon = new Rcon({
-        host: process.env.185.17.10.84,
-        port: parseInt(process.env.25968),
-        password: process.env.4eLKubmf6k
+        host: process.env.RCON_HOST,
+        port: Number(process.env.RCON_PORT),
+        password: process.env.RCON_PASSWORD
     });
 
     try {
